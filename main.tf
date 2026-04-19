@@ -1,10 +1,3 @@
-data "aws_subnets" "available-subnets"{
-    filter {
-        name = "tag:Name"
-        values = ["Our-Public-*"]
-    }
-}
-
 resource "aws_eks_cluster" "project-cluster" {
   name     = "project-cluster"
   role_arn = aws_iam_role.example.arn
