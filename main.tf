@@ -1,7 +1,7 @@
 data "aws_subnets" "available-subnets"{
     filter {
         name = "tag:Name"
-        values = ["Our-Public-*"]
+        values = ["vpc-0fd9c6454f253741b"]
     }
 }
 
