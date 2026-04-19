@@ -1,3 +1,32 @@
+# Get VPC by name tag
+data "aws_vpc" "our-vpc" {
+  filter {
+    name   = "tag:Name"
+    values = ["Our-VPC"]
+  }
+}
+
+# Get public subnets inside that VPC
+data "aws_subnets" "available-subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.our-vpc.id]
+  }
+  filter {
+    name   = "map-public-ip-on-launch"
+    values = ["true"]
+  }
+}
+
+# Debug output - add this temporarily
+output "debug-vpc-id" {
+  value = data.aws_vpc.our-vpc.id
+}
+
+output "debug-subnet-ids" {
+  value = data.aws_subnets.available-subnets.ids
+}
+
 data "aws_subnets" "available-subnets" {
   filter {
     name   = "tag:Name"
