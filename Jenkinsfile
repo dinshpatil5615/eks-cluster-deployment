@@ -34,6 +34,8 @@ pipeline {
                     switch (params.ACTION) {
                         case 'apply':
                             echo 'Executing Apply...'
+                            sh 'terraform plan -out=tfplan'
+                            sh 'terraform show tfplan | grep subnet'
                             sh "terraform apply --auto-approve"
                             break
                         case 'destroy':
