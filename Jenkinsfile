@@ -16,19 +16,19 @@ pipeline {
             }
         }
     
-        stage ("terraform init") {
+    stage ("terraform init") {
             steps {
                 sh ("terraform init -reconfigure") 
             }
         }
         
-        stage ("plan") {
+    stage ("plan") {
             steps {
                 sh ('terraform plan') 
             }
         }
 
-        stage (" Action") {
+    stage (" Action") {
             steps {
                 script {
                     switch (params.ACTION) {
