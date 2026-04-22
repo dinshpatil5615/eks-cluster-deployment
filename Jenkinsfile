@@ -9,10 +9,10 @@ pipeline {
         )
     }
 
-    stages {
-        stage('Checkout') {
+    stage('Checkout') {
             steps {
-                git 'https://github.com/dinshpatil5615/eks-cluster-deployment.git'
+                git branch: 'main',
+                    url: 'https://github.com/dinshpatil5615/eks-cluster-deployment.git'
             }
         }
     
