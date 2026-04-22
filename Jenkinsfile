@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     parameters {
         choice(
             name: 'ACTION',
@@ -8,27 +7,27 @@ pipeline {
             description: 'Select the action to perform'
         )
     }
-
-    stage('Checkout') {
+    stages {
+        stage('Checkout') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/dinshpatil5615/eks-cluster-deployment.git'
             }
         }
-    
-    stage ("terraform init") {
+
+        stage('Terraform Init') {
             steps {
-                sh ("terraform init -reconfigure") 
-            }
-        }
-        
-    stage ("plan") {
-            steps {
-                sh ('terraform plan') 
+                sh 'terraform init -reconfigure'
             }
         }
 
-    stage (" Action") {
+        stage('Terraform Plan') {
+            steps {
+                sh 'terraform plan'
+            }
+        }
+
+        stage('Action') {
             steps {
                 script {
                     switch (params.ACTION) {
@@ -36,11 +35,11 @@ pipeline {
                             echo 'Executing Apply...'
                             sh 'terraform plan -out=tfplan'
                             sh 'terraform show tfplan | grep subnet'
-                            sh "terraform apply --auto-approve"
+                            sh 'terraform apply --auto-approve'
                             break
                         case 'destroy':
                             echo 'Executing Destroy...'
-                            sh "terraform destroy --auto-approve"
+                            sh 'terraform destroy --auto-approve'
                             break
                         default:
                             error 'Unknown action'
@@ -49,3 +48,4 @@ pipeline {
             }
         }
     }
+}
